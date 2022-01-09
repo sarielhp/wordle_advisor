@@ -17,7 +17,7 @@ $ ./wordle_advisor
 You can also specify the information you were given so far for your
 answers. For example:
 
-$ ./wordle_advisor  '-O!R!A-T-E' '-B!R!A-I+N'
+$ ./wordle_advisor  '-O@R@A-T-E' '-B@R@A-I+N'
 
 Specfy that two words were tried to so far (ORATE and BRAIN). Here the
 prefix characteers have the following meaning:
@@ -27,15 +27,15 @@ prefix characteers have the following meaning:
 +: This letter does appear in the answer (yellow background), but not
    in this location.
 
-!: This letter appears in the answer in this location (green background).
+@: This letter appears in the answer in this location (green background).
 
 The program returns again a list of words that comply with these
 constraints sorted in decreasing order by score. For example:
 
 -------------------------------------------------------------------
-  ./wordle_advisor  '-O!R!A-T-E' '-B!R!A-I+N'
-pattern : -O!R!A-T-E
-pattern : -B!R!A-I+N
+  ./wordle_advisor  '-O@R@A-T-E' '-B@R@A-I+N'
+pattern : -O@R@A-T-E
+pattern : -B@R@A-I+N
 01: CRANK     score: 27
 02: DRANK     score: 27
 03: FRANK     score: 27
@@ -52,7 +52,7 @@ frequency of all the words in this word list. The score of a word its
 the total sum of the frequence of its letters. This is a pretty naive
 strategy, and it might be interesting to develope a more sophisticated
 strategy later on. In any case, it provides you with a quick candidate
-list of words that you might try!
+list of words that you might try...
 
 ----------------------------------------------------------------------
 BTW, the list of words this program use (words_5.txt) seems to be
