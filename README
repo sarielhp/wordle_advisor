@@ -1,0 +1,57 @@
+This is a small program I wrote to help playing the web game
+wordle. It is written in C++, and run perfectly on linux (should also
+compile and work on other inferior platforms).
+
+To compile (on linux), you would need g++ installed and make. Doing
+make (from the command line) would create the executable. Running the
+program with no parameters generates a list of recommended works to use
+as a first word:
+
+-------------------------------------------------------------------
+$ ./wordle_advisor 
+01: ORATE     score: 7523
+02: AROSE     score: 7523
+...
+-------------------------------------------------------------------
+
+You can also specify the information you were given so far for your
+answers. For example:
+
+$ ./wordle_advisor  '-O!R!A-T-E' '-B!R!A-I+N'
+
+Specfy that two words were tried to so far (ORATE and BRAIN). Here the
+prefix characteers have the following meaning:
+
+-: This letter does NOT appear in the answer (black background).
+
++: This letter does appear in the answer (yellow background), but not
+   in this location.
+
+!: This letter appears in the answer in this location (green background).
+
+The program returns again a list of words that comply with these
+constraints sorted in decreasing order by score. For example:
+
+-------------------------------------------------------------------
+  ./wordle_advisor  '-O!R!A-T-E' '-B!R!A-I+N'
+pattern : -O!R!A-T-E
+pattern : -B!R!A-I+N
+01: CRANK     score: 27
+02: DRANK     score: 27
+03: FRANK     score: 27
+04: PRANK     score: 27
+05: FRANC     score: 25
+06: GRAND     score: 25
+07: PRANG     score: 25
+-------------------------------------------------------------------
+
+The program works as follows. It downloads a list of words from the
+file words_5.txt. It then create a word list of all the words that
+comply with the patterns provided. It then computes the character
+frequency of all the words in this word list. The score of a word its
+the total sum of the frequence of its letters. This is a pretty naive
+strategy, and it might be interesting to develope a more sophisticated
+strategy later on. In any case, it provides you with a quick candidate
+list of words that you might try!
+
+======================================================================

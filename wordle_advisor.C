@@ -6,6 +6,7 @@
 #include  <stdlib.h>
 #include  <stdio.h>
 #include  <assert.h>
+#include  <string.h>
 
 #include  <algorithm>
 #include  <fstream>
@@ -79,7 +80,7 @@ void   Dictionary::read( const char   * fl )
 void   pattern_usage()
 {
     cout << "Pattern is a string, where each letter must be prefixed with\n"
-        " one of the three characters:"
+        " one of the three characters:\n"
         "    -c   The letter c does not appear in the desired word.\n"
         "    +c   The letter c appears in the desired word, but not in this"
         " location\n"
@@ -90,6 +91,13 @@ void   pattern_usage()
         " somewhere, etc...\n"
         "\n";
     exit( -1 );
+}
+
+void  usage()
+{
+    cout << "Wordle advisor 0.1, 01/08/2022, by Sariel Har-Peled\n\n"
+         << "\t./wordle_advisor  [pattern1] [pattern2]...\n\n";
+    pattern_usage();
 }
 
 
@@ -297,8 +305,9 @@ void  WordList::output_top( int  top )
     if  ( (int)ids.size() < top )
         top  = ids.size();
     for  ( int  ind = 0; ind < top; ind++ ) {
-        cout << ind << ": " << dict.word( ids[ ind ].get_id() )
-             << "   " << ids[ ind ].get_score() << "\n";
+        string  str = dict.word( ids[ ind ].get_id() );
+        printf( "%02d: %s     score: %d\n",
+                ind + 1, str.c_str(), ids[ ind ].get_score() );
     }        
 }
 
@@ -327,6 +336,10 @@ int  main( int  argc, char  ** argv )
     WordList wl( dict );
     wl.del_words_with_repaated_letters();
 
+    for  ( int  i = 1; i < argc; i++ ) 
+        if  ( ( strcasecmp( argv[ i ], "-h" ) == 0 )
+              || ( strcasecmp( argv[ i ], "/h" ) == 0 ) )
+            usage();
 
     for  ( int  i = 1; i < argc; i++ ) {
         string  pat( argv[ i ] );
