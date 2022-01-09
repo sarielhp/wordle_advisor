@@ -18,7 +18,7 @@
 using namespace std;
 
 /*--- Constants ---*/
-#define  VERSION  "0.1"
+#define  VERSION  "0.2"
 
 /*--- Start of Code ---*/
 
@@ -74,7 +74,7 @@ void   Dictionary::read( const char   * fl )
 //    -c   The letter c does not appear in the desired word.
 //    +c   The letter c appears in the desired word, but not in this
 //         location
-//    !c   The letter c appears in the string in this location.
+//    @c   The letter c appears in the string in this location.
 /////////////////////////////////////////////////////////////////////////
 
 void   pattern_usage()
@@ -84,10 +84,10 @@ void   pattern_usage()
         "    -c   The letter c does not appear in the desired word.\n"
         "    +c   The letter c appears in the desired word, but not in this"
         " location\n"
-        "    !c   The letter c appears in the string in this location..\n"
+        "    @c   The letter c appears in the string in this location..\n"
         "\n"
         "Examples:\n"
-        "!A+B-O+D-E     The desired word starts with an A, contains B "
+        "@A+B-O+D-E     The desired word starts with an A, contains B "
         " somewhere, etc...\n"
         "\n";
     exit( -1 );
@@ -119,9 +119,9 @@ void   pattern_check( string  & pattern )
 
     for  ( auto i = 0; i < (int)pattern.length(); i += 2 ) {
         char  c = pattern[ i ];
-        if  ( ( c != '-' )  &&  ( c != '+' )  &&  ( c != '!' ) ) {
+        if  ( ( c != '-' )  &&  ( c != '+' )  &&  ( c != '@' ) ) {
             fprintf( stderr, "The pattern [%s] is invalid!\n"
-                     "Letter at location %d should be either -/+/!\n",
+                     "Letter at location %d should be either -/+/@\n",
                      pattern.c_str(), 2*i + 1 );
             exit( -1 );
         }
@@ -159,7 +159,7 @@ bool   is_pattern_match( const string   & pattern, const string  & word )
         char  cmd = pattern[ i ];
         char  c = pattern[i + 1 ];
 
-        if  ( cmd == '!' )  {
+        if  ( cmd == '@' )  {
             if  ( loc >= word.length() ) 
                 return  false;
             if  ( word[ loc ] != c ) 
@@ -210,11 +210,18 @@ public:
 
     int  get_score( const string  & s ) {
         int  sc = 0;
-        for  ( char  c : s ) {
-            if  ( ( c < 'A' )  ||  ( c > 'Z' ) )
+
+        for  ( int  i = 0; i < (int)s.length(); i++ ) {
+            char  c = s[i];
+            bool  f_before = false;
+            for  ( int  j = 0; j < i; j++ )
+                if  ( s[j] == c )
+                    f_before = true;
+            if  ( f_before )
                 continue;
             sc += freq[ (int)(c - 'A') ];
         }
+                                      
         return  sc;        
     }    
 };
@@ -335,7 +342,7 @@ int  main( int  argc, char  ** argv )
     dict.read( "words_5.txt" );
 
     WordList wl( dict );
-    wl.del_words_with_repaated_letters();
+    //wl.del_words_with_repaated_letters();
 
     if  ( argc == 1 ) {
         printf( "wordle_advisor %s. Use -h for help.\n\n", VERSION );
