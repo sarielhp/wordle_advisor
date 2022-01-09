@@ -18,7 +18,7 @@
 using namespace std;
 
 /*--- Constants ---*/
-
+#define  VERSION  "0.1"
 
 /*--- Start of Code ---*/
 
@@ -95,7 +95,8 @@ void   pattern_usage()
 
 void  usage()
 {
-    cout << "Wordle advisor 0.1, 01/08/2022, by Sariel Har-Peled\n\n"
+    cout << "Wordle advisor " << VERSION
+         << ", 01/08/2022, by Sariel Har-Peled\n\n"
          << "\t./wordle_advisor  [pattern1] [pattern2]...\n\n";
     pattern_usage();
 }
@@ -336,6 +337,10 @@ int  main( int  argc, char  ** argv )
     WordList wl( dict );
     wl.del_words_with_repaated_letters();
 
+    if  ( argc == 1 ) {
+        printf( "wordle_advisor %s. Use -h for help.\n\n", VERSION );
+    }
+    
     for  ( int  i = 1; i < argc; i++ ) 
         if  ( ( strcasecmp( argv[ i ], "-h" ) == 0 )
               || ( strcasecmp( argv[ i ], "/h" ) == 0 ) )
@@ -348,7 +353,7 @@ int  main( int  argc, char  ** argv )
         wl.del_words_not_matching_pattern( pat );
     }
     wl.sort_by_frequence_score();
-    wl.output_top( 10 );
+    wl.output_top( 15 );
     
     return  0;
 }

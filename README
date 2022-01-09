@@ -54,4 +54,9 @@ strategy, and it might be interesting to develope a more sophisticated
 strategy later on. In any case, it provides you with a quick candidate
 list of words that you might try!
 
+----------------------------------------------------------------------
+BTW, the list of words this program use (words_5.txt) seems to be
+somewhat larger than the one used by wordle, so you might get
+suggested words that it would not accept.
+
 ======================================================================
